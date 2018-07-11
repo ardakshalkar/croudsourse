@@ -29,11 +29,26 @@ Route::resource('users', 'UserController');
 
 Route::resource('posts', 'PostController');
 
+Route::resource('audarmas', 'AudarmaController');
 
+
+Route::resource('tags', 'TagController');
+
+
+Route::post('translations/vote', 'TranslationController@vote2');
+Route::get('translations/vote', 'TranslationController@vote2');
 
 Route::resource('translations', 'TranslationController');
+
 
 Route::resource('users', 'UserController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('audarmas/create', 'AudarmaController@create')->name('audarmas');
+
+Route::post('posts/create', array('as' => 'create', 'uses' => 'SearchController@executeSearch'));
+
+Route::post('audarmas/create', array('as' => 'create', 'uses' => 'SearchController@executeSearch'));
+Route::get('auth/{provider}', 'Auth\LoginController@redirectToProvider');
+Route::get('auth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');

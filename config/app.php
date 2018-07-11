@@ -165,6 +165,7 @@ return [
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         \InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
         \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class, 
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -218,6 +219,7 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Flash'     => Laracasts\Flash\Flash::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 
