@@ -3,7 +3,9 @@
 namespace App\Models;
 use App\Role as Role;
 use Eloquent as Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Notifications\newCom;
 
 /**
  * Class User
@@ -20,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class User extends Model
 {
+    use Notifiable;
     use SoftDeletes;
 
     public $table = 'users';
@@ -77,6 +80,7 @@ class User extends Model
     {
         return $this->hasMany(\App\Models\Translation::class);
     }
+
     public function display(){
         if ($this->anonymous){
             return "Аноним #".$this->id;
@@ -85,7 +89,12 @@ class User extends Model
             return $this->name;
         }
     }
+
     public function roles(){
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    function socialProviders(){
+        return $this->hasMany(socialProvider::class);
     }
 }

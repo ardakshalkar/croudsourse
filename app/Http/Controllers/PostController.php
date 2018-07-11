@@ -8,6 +8,8 @@ use App\Repositories\PostRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+//use App\Models\Tag;
+use App\Http\Controllers\Tag;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Illuminate\Support\Facades\Auth;
@@ -56,17 +58,25 @@ class PostController extends AppBaseController
      */
     public function store(CreatePostRequest $request)
     {
+        //dump($request->"invisible");
         $input = $request->all();
+       // dump($input);
+        $ids = explode(", ", $input['invisible']);
+        dump($ids);
         $user = Auth::user();
         $input['user_id'] = $user->id;
         //print_r($input);
         //die();
         $post = $this->postRepository->create($input);
-
+        foreach ($ids as $ii) {
+            $tag = Tag::find($ii);
+            $post->tags()->save($tag);
+            # code...
+        }
         Flash::success('Post saved successfully.');
 
         //return redirect(route('posts.index'));
-        return redirect(route('posts.show',$post->id));
+       return redirect(route('posts.show',$post->id));
     }
 
     /**
@@ -76,6 +86,9 @@ class PostController extends AppBaseController
      *
      * @return Response
      */
+    public function sortt($a, $b){
+        return ($a[1] <= $b[1]) ? -1 : 1;
+    }
     public function show($id)
     {
         $post = $this->postRepository->findWithoutFail($id);
@@ -85,8 +98,27 @@ class PostController extends AppBaseController
 
             return redirect(route('posts.index'));
         }
-
-        return view('posts.show')->with('post', $post);
+        $trans = $post->translations;
+        //$ar = array_map(null, $a, $b, $c)
+        $ids = array();
+        $we = array();
+        foreach ($trans as $tran) {
+            # code...
+            $us_roles = $tran->user->roles;
+            $weight = 0;
+            foreach ($us_roles as $role) {
+                $weight += $role->weight;
+                # code...
+            }
+            array_push($ids, $tran);
+            array_push($we, $weight);
+        }
+        $map = array_map(null, $ids, $we);
+        usort($map, function($a, $b){
+        return ($a[1] <= $b[1]) ? -1 : 1;
+        });
+        return view('posts.show')->with(['post' => $post,
+                                            'map' => $map]);
     }
 
     /**

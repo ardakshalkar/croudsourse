@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Models\socialProvider as socialProvider;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\newCom;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -29,5 +31,9 @@ class User extends Authenticatable
     
     public function roles(){
         return $this->belongsToMany(Role::class);
+    }
+
+    function socialProviders(){
+        return $this->hasMany(socialProvider::class);
     }
 }

@@ -64,4 +64,10 @@ class Post extends Model
     {
         return $this->hasMany(\App\Models\Translation::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(\App\Models\Post_tag::class, 'post_tag', 'post_id', 'tag_id');
+    } 
+    
 }

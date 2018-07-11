@@ -5,6 +5,7 @@ namespace Illuminate\Foundation;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Laravel\Socialite\SocialiteServiceProvider;
 
 class ProviderRepository
 {

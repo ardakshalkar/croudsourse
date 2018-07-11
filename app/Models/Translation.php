@@ -29,7 +29,8 @@ class Translation extends Model
     public $fillable = [
         'post_id',
         'user_id',
-        'content'
+        'content',
+        'rating_id'
     ];
 
     /**
@@ -40,7 +41,8 @@ class Translation extends Model
     protected $casts = [
         'post_id' => 'integer',
         'user_id' => 'integer',
-        'content' => 'string'
+        'content' => 'string',
+        'rating_id' => 'integer'
     ];
 
     /**
@@ -66,5 +68,9 @@ class Translation extends Model
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
+    }
+    public function rating()
+    {
+        return $this->hasOne(\App\Models\Rating::class);
     }
 }

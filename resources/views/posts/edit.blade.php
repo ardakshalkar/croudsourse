@@ -16,6 +16,14 @@
                         @include('posts.fields')
 
                    {!! Form::close() !!}
+
+                   {!! Form::model($tag, ['route' => ['tags.store', $tag->id], 'method' => 'patch']) !!}
+                  <div class="form-group col-sm-12">
+                      {!! Form::label('content', 'тег') !!}
+                      {!! Form::textarea('name', null, ['class' => 'form-control']) !!}
+                      {!! Form::submit('tag Сақтау', ['class' => 'btn btn-primary']) !!}
+                  </div>
+                   {!! Form::close() !!}
                </div>
            </div>
        </div>
